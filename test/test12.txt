@@ -1,0 +1,5 @@
+qw begin 12 1e er
+and 12begin 23 bool  call
+true   # until  var  while  write
+abc  123  'EFG  b(cdb'  (  )  *  +  ,  -  .  ..  /
+:  :=  ;  <  <=  <>  = /* >  >=  [  ]
