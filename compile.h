@@ -4,21 +4,22 @@
 #include<iostream>
 #include<cstring>
 #include<string>
+#include<stdlib>
 using namespace std;
-//¹Ø¼ü×Ö
+//å…³é”®å­—
 struct tableEntry
 {
 	char word[10];
 	int classcode;
 };
-//µ¥´Ê
+//å•è¯
 struct Token
 {
 	int classcode;
 	string tok;
 	Token *next;
 };
-//ËÄÔªÊ½
+//å››å…ƒå¼
 struct fourTuple
 {
 	string op;
@@ -27,13 +28,13 @@ struct fourTuple
 	int stat;
 	fourTuple *next;
 };
-//Êı¾İ
+//æ•°æ®
 struct Data
 {
 	int typeIndex;
 	string dataValue;
 };
-//³ö¿ÚÁ´
+//å‡ºå£é“¾
 struct Chain
 {
 	fourTuple *locate;
