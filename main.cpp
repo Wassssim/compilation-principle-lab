@@ -4,22 +4,22 @@
 #include<map>
 #include "compile.h"
 using namespace std;
-//Êı¾İÀàĞÍ
+//æ•°æ®ç±»å‹
 string Types[] = { "integer", "bool", "char" }; 
-map<string, Data*> mp; //¶¨ÒåÒ»¸öÓ³Éä´æ´¢±äÁ¿¼°ÆäÀàĞÍ
-stack<string> number; //Êı¾İÕ»
-stack<string> symbol; //·ûºÅÕ»
-Token *tokenHead = NULL; //µ¥´ÊĞòÁĞ´®µÄÍ·Ö¸Õë
+map<string, Data*> mp; //å®šä¹‰ä¸€ä¸ªæ˜ å°„å­˜å‚¨å˜é‡åŠå…¶ç±»å‹
+stack<string> number; //æ•°æ®æ ˆ
+stack<string> symbol; //ç¬¦å·æ ˆ
+Token *tokenHead = NULL; //å•è¯åºåˆ—ä¸²çš„å¤´æŒ‡é’ˆ
 fourTuple *current = NULL, *fourtuple = NULL;
 int nextstat = 0;
 int temp = 1;
-//²úÉúµ¥´Ê¶şÔªÊ½ĞòÁĞ
+//äº§ç”Ÿå•è¯äºŒå…ƒå¼åºåˆ—
 void serialToken(char *filename,Token *& head)
 {
 	ifstream infile;
 	string buff;
 	Token *s=NULL, *p=NULL;
-	infile.open(filename); //´ò¿ªÎÄ¼ş
+	infile.open(filename); //æ‰“å¼€æ–‡ä»¶
 	if(!infile)
 	{
 		cerr<<"File open failed!";
@@ -27,13 +27,13 @@ void serialToken(char *filename,Token *& head)
 	 }
 	while(getline(infile,buff))
 	{	
-			int code; //ÓÃÓÚÏÔÊ¾µ¥´ÊÖÖ±ğÂë
-			int next =0; //ÓÃÓÚ»º³åÇø×Ö·û¼ÆÊı
+			int code; //ç”¨äºæ˜¾ç¤ºå•è¯ç§åˆ«ç 
+			int next =0; //ç”¨äºç¼“å†²åŒºå­—ç¬¦è®¡æ•°
 			do
 			{			
 			    s = new Token;
 				char *tok =new char[50];
-				scanner(buff,tok,next,code); //ÖğĞĞÉ¨Ãè·ÖÎöµ¥´Ê
+				scanner(buff,tok,next,code); //é€è¡Œæ‰«æåˆ†æå•è¯
 				if(code == 0)
 					break;
 				if(code == -1)
@@ -53,9 +53,9 @@ void serialToken(char *filename,Token *& head)
 	}
 	p->next = NULL;
 	delete s;
-	infile.close();  //¹Ø±ÕÎÄ¼ş 
+	infile.close();  //å…³é—­æ–‡ä»¶ 
 }
-//·ÖÎö³ÌĞòÍ·²¿
+//åˆ†æç¨‹åºå¤´éƒ¨
 bool Program(Token *&head)
 {
 	if(head->classcode == 23)
@@ -76,7 +76,7 @@ bool Program(Token *&head)
 	else 
 		return false;
 }
-//·ÖÎö±äÁ¿¶¨Òå
+//åˆ†æå˜é‡å®šä¹‰
 bool Var(Token *&head)
 {
 	string *tok = NULL;
@@ -111,9 +111,9 @@ bool Var(Token *&head)
 			head = head->next;
 			switch(head->classcode)
 			{
-			case 17: typeIndex = 0; break; //integerÀàĞÍ
-			case 4: typeIndex = 1; break; //boolÀàĞÍ
-			case 7: typeIndex = 2; break; //charÀàĞÍ
+			case 17: typeIndex = 0; break; //integerç±»å‹
+			case 4: typeIndex = 1; break; //boolç±»å‹
+			case 7: typeIndex = 2; break; //charç±»å‹
 			default: {
 				head = head->next;
 				return false;
@@ -152,7 +152,7 @@ bool Var(Token *&head)
 		return false;
 	}
 }
-//·ÖÎöifÓï¾ä
+//åˆ†æifè¯­å¥
 void If(Token *&head,int cstat)
 {
 	head = head->next;
@@ -180,24 +180,24 @@ void If(Token *&head,int cstat)
 			head = head->next;
 			continue;
 		}
-		//thenÓï¾ä
+		//thenè¯­å¥
 		else if(head->classcode == 29)
 		{
 			back(tc,nextstat);
 			head = head->next;
-			if(head->classcode == 36) //ÉùÃ÷Óï¾ä
+			if(head->classcode == 36) //å£°æ˜è¯­å¥
 			{
 				Statement(head);
 			}
-			if(head->classcode == 34) //whileÓï¾ä
+			if(head->classcode == 34) //whileè¯­å¥
 			{
 				While(head,cstat);
 			}
-			if(head->classcode == 15) //ifÓï¾ä
+			if(head->classcode == 15) //ifè¯­å¥
 			{
 				If(head,cstat);
 			}
-			if(head->classcode == 26) //repeatÓï¾ä
+			if(head->classcode == 26) //repeatè¯­å¥
 			{
 				Repeat(head,cstat); 
 			}
@@ -207,24 +207,24 @@ void If(Token *&head,int cstat)
 			oc->locate = current;
 			continue;
 		}
-		//elseÓï¾ä
+		//elseè¯­å¥
 		else if(head->classcode == 11)
 		{
 			back(fc,nextstat);
 			head = head->next;
-			if(head->classcode == 36) //ÉùÃ÷Óï¾ä
+			if(head->classcode == 36) //å£°æ˜è¯­å¥
 			{
 				Statement(head);
 			}
-			if(head->classcode == 34) //whileÓï¾ä
+			if(head->classcode == 34) //whileè¯­å¥
 			{
 				While(head,cstat);
 			}
-			if(head->classcode == 15) //ifÓï¾ä
+			if(head->classcode == 15) //ifè¯­å¥
 			{
 				If(head,cstat);
 			}
-			if(head->classcode == 26) //repeatÓï¾ä
+			if(head->classcode == 26) //repeatè¯­å¥
 			{
 				Repeat(head,cstat); 
 			}
@@ -247,7 +247,7 @@ void If(Token *&head,int cstat)
 		back(oc,cstat);
 	return;
 }
-//·ÖÎörepeatÓï¾ä
+//åˆ†ærepeatè¯­å¥
 void Repeat(Token *&head,int cstat)
 {
 	int currentstat = nextstat;
@@ -263,7 +263,7 @@ void Repeat(Token *&head,int cstat)
 		cout<<"'repeat' sentence error!"<<endl;
 		return;
 	}
-	//untilÓï¾ä
+	//untilè¯­å¥
 	if(head->classcode == 32)
 	{
 		string x, op, y;
@@ -288,33 +288,33 @@ void Repeat(Token *&head,int cstat)
 		head = head->next;
 	}
 }
-//·ÖÎö¾ä×Ó
+//åˆ†æå¥å­
 void Sentence(Token *&head)
 {
-	if(head->classcode == 3) //¸´ºÏÓï¾ä
+	if(head->classcode == 3) //å¤åˆè¯­å¥
 	{
 		Complex(head);
 	}
-	if(head->classcode == 36) //¸³ÖµÓï¾ä
+	if(head->classcode == 36) //èµ‹å€¼è¯­å¥
 	{
 		Statement(head);
 	}
-	if(head->classcode == 34) //whileÓï¾ä
+	if(head->classcode == 34) //whileè¯­å¥
 	{
 		While(head,0);
 	}
-	if(head->classcode == 15) //ifÓï¾ä
+	if(head->classcode == 15) //ifè¯­å¥
 	{
 		If(head,0);
 	}
-	if(head->classcode == 26) //repeatÓï¾ä
+	if(head->classcode == 26) //repeatè¯­å¥
 	{
 		Repeat(head,0);
 	}
 	else
 		return;
 }
-//²úÉúËÄÔªÊ½
+//äº§ç”Ÿå››å…ƒå¼
 void emit(string op,string arg1,string arg2, string result)
 {
 	fourTuple *f = new fourTuple; 
@@ -340,7 +340,7 @@ bool isExist(string keyName)
 {
 	return (mp.find(keyName) != mp.end());
 }
-//·ÖÎöËãÊõ±í´ïÊ½
+//åˆ†æç®—æœ¯è¡¨è¾¾å¼
 bool Calculate(Token *&head, string left)
 {
 	while(head->classcode !=52)
@@ -351,7 +351,7 @@ bool Calculate(Token *&head, string left)
 		}
 		else if(head->classcode == 36)
 		{
-			if(!isExist(head->tok)) //±äÁ¿Î´¶¨Òå
+			if(!isExist(head->tok)) //å˜é‡æœªå®šä¹‰
 			{
 				cout<<"'"<<head->tok<<"'"<<"is not defined!"<<endl;
 				head = head->next;
@@ -359,15 +359,15 @@ bool Calculate(Token *&head, string left)
 			}
 			number.push(head->tok);
 		}
-		else if(head->classcode ==43) //¼Ó·¨ÔËËã
+		else if(head->classcode ==43) //åŠ æ³•è¿ç®—
 		{
 			symbol.push("+");
 		}
-		else if(head->classcode ==45) //¼õ·¨ÔËËã
+		else if(head->classcode ==45) //å‡æ³•è¿ç®—
 		{
 			symbol.push("-");
 		}
-		else if(head->classcode == 41) //³Ë·¨ÔËËã
+		else if(head->classcode == 41) //ä¹˜æ³•è¿ç®—
 		{
 			string s = number.top();
 			number.pop();
@@ -379,7 +379,7 @@ bool Calculate(Token *&head, string left)
 			emit("*",s,head->tok,t);
 			number.push(t);
 		}
-		else if(head->classcode == 48) //³ı·¨ÔËËã
+		else if(head->classcode == 48) //é™¤æ³•è¿ç®—
 		{
 			string s = number.top();
 			number.pop();
@@ -429,7 +429,7 @@ bool Calculate(Token *&head, string left)
 		default: ;
 		}
 	}
-	//²åÈë¸³ÖµÓï¾äËÄÔªÊ½
+	//æ’å…¥èµ‹å€¼è¯­å¥å››å…ƒå¼
 	if(symbol.empty())
 	{
 		string s = number.top();
@@ -441,7 +441,7 @@ bool Calculate(Token *&head, string left)
 	}
 	return 0;
 }
-//·ÖÎö¸³ÖµÓï¾ä
+//åˆ†æèµ‹å€¼è¯­å¥
 void Statement(Token *&head)
 {
 	if(!isExist(head->tok))
@@ -470,7 +470,7 @@ void Statement(Token *&head)
 		}
 	}
 }
-//À­Á´»ØÌî
+//æ‹‰é“¾å›å¡«
 void back(Chain *&c, int stat)
 {
 	char tc[10];
@@ -482,7 +482,7 @@ void back(Chain *&c, int stat)
 		c = c->next;
 	}
 }
-//·ÖÎöwhileÓï¾ä
+//åˆ†æwhileè¯­å¥
 void While(Token *&head, int cstat)
 {
 	head = head->next;
@@ -533,7 +533,7 @@ void While(Token *&head, int cstat)
 			head = head->next;
 			continue;
 		}
-		//ÅĞ¶ÏÌõ¼şÓĞand
+		//åˆ¤æ–­æ¡ä»¶æœ‰and
 		if(head->classcode == 1)
 		{
 			back(tru,nextstat);
@@ -580,7 +580,7 @@ void While(Token *&head, int cstat)
 			head = head->next;
 			continue;
 		}
-		//ÅĞ¶ÏÌõ¼şÖĞÓĞor
+		//åˆ¤æ–­æ¡ä»¶ä¸­æœ‰or
 		if(head->classcode == 20)
 		{
 			back(fal,nextstat);
@@ -621,24 +621,24 @@ void While(Token *&head, int cstat)
 			head = head->next;
 			continue;
 		}
-		//doÓï¾ä
+		//doè¯­å¥
 		if(head->classcode == 10)
 		{
 			back(tru,nextstat);
 			head = head->next;
-			if(head->classcode == 36) //ÉùÃ÷Óï¾ä
+			if(head->classcode == 36) //å£°æ˜è¯­å¥
 			{
 				Statement(head);
 			}
-			if(head->classcode == 34) //whileÓï¾ä
+			if(head->classcode == 34) //whileè¯­å¥
 			{
 				While(head,currentstat);
 			}
-			if(head->classcode == 15) //ifÓï¾ä
+			if(head->classcode == 15) //ifè¯­å¥
 			{
 				If(head,currentstat);
 			}
-			if(head->classcode == 26) //repeatÓï¾ä
+			if(head->classcode == 26) //repeatè¯­å¥
 			{
 				Repeat(head,currentstat);
 			}
@@ -654,7 +654,7 @@ void While(Token *&head, int cstat)
 		}
 	}
 }
-//·ÖÎö¸´ºÏÓï¾ä
+//åˆ†æå¤åˆè¯­å¥
 void Complex(Token *&head)
 {
 	if(head->classcode == 3)
@@ -663,11 +663,11 @@ void Complex(Token *&head)
 		while(1)
 		{
 			Sentence(head);
-			if(head->classcode == 12) //Óöµ½end¹Ø¼ü×Ö
+			if(head->classcode == 12) //é‡åˆ°endå…³é”®å­—
 				break;
 		}
 		head = head->next;
-		if(head->classcode == 46) //Óöµ½.½áÊø·û
+		if(head->classcode == 46) //é‡åˆ°.ç»“æŸç¬¦
 		{
 			if(head->next != NULL)
 				head =head->next;
@@ -681,34 +681,34 @@ int main()
 {
 	while(1)
 	{
-		cout<<"ÇëÊäÈë²âÊÔ³ÌĞòÃû£º";
+		cout<<"Input test file: ";
 	    char filename[10];
 	    cin>>filename;
 		tokenHead = NULL;
 		current = NULL;
 		fourtuple = NULL;
 
-		//´Ê·¨·ÖÎöµÃµ½µ¥´ÊĞòÁĞ
+		//è¯æ³•åˆ†æå¾—åˆ°å•è¯åºåˆ—
 		serialToken(filename,tokenHead);
-		//·ÖÎö³ÌĞòÍ·²¿
+		//åˆ†æç¨‹åºå¤´éƒ¨
 		if(!Program(tokenHead))
 		{
 			cout<<"Definition of program error!"<<endl;
 		}
 		tokenHead = tokenHead->next;
-		//·ÖÎö±äÁ¿¶¨Òå
+		//åˆ†æå˜é‡å®šä¹‰
 		if(!Var(tokenHead))
 		{
 			cout<<"Definition of variable type error!"<<endl;
 		}
-		//¸´ºÏÓï¾ä·ÖÎö
+		//å¤åˆè¯­å¥åˆ†æ
 		Complex(tokenHead);
 		emit("sys","-","-","-");
-		//Êä³öËÄÔªÊ½
+		//è¾“å‡ºå››å…ƒå¼
 		while(fourtuple)
 		{
-			cout << "£¨" << fourtuple->stat << "£©";
-			cout<<"£¨"<<fourtuple->op<<","<<fourtuple->arg1<<","<<fourtuple->arg2<<","<<fourtuple->result<<"£©"<<endl;
+			cout << "ï¼ˆ" << fourtuple->stat << "ï¼‰";
+			cout<<"ï¼ˆ"<<fourtuple->op<<","<<fourtuple->arg1<<","<<fourtuple->arg2<<","<<fourtuple->result<<"ï¼‰"<<endl;
 			fourtuple = fourtuple->next;
 		}
 		tokenHead = NULL;
