@@ -38,7 +38,7 @@ void serialToken(char *filename,Token *& head)
 					break;
 				if(code == -1)
 				{
-					tok = "Invalid character or identifier!";
+					tok = (char *)"Invalid character or identifier!";
 				}
 				s->classcode = code;
 				s->tok = tok;
