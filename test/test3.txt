@@ -1,4 +1,4 @@
-program example4;
+program example3;
 var A,B,C,D:integer;
 begin
   A:=2; F:=2; C:=3; D:=4;
