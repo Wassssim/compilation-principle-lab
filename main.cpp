@@ -276,8 +276,8 @@ void Repeat(Token *&head,int cstat)
 		emit("j"+op,x,y,"");
 
 		c->locate = current;
-		char t[10];
-		sprintf(t,10,"%d",currentstat);
+		char t[32];
+		sprintf(t,"%d",currentstat);
 		string s(t);
 		emit("j","-","-",s);
 
@@ -371,8 +371,8 @@ bool Calculate(Token *&head, string left)
 		{
 			string s = number.top();
 			number.pop();
-			char tc[10];
-			sprintf(tc,10,"%d",temp);
+			char tc[32];
+			sprintf(tc,"%d",temp);
 			string t ="T"+string(tc);
 			temp ++;
 			head = head->next;
@@ -383,8 +383,8 @@ bool Calculate(Token *&head, string left)
 		{
 			string s = number.top();
 			number.pop();
-			char tc[10];
-			sprintf(tc,10,"%d",temp);
+			char tc[32];
+			sprintf(tc,"%d",temp);
 			string t ="T"+string(tc);
 			temp ++;
 			head = head->next;
@@ -410,8 +410,8 @@ bool Calculate(Token *&head, string left)
 		number.pop();
 		string op = symbol.top();
 		symbol.pop();
-		char tc[10];
-		sprintf(tc,10,"%d",temp);
+		char tc[32];
+		sprintf(tc,"%d",temp);
 		string t = "T"+string(tc);
 		temp ++;
 		switch(op[0])
@@ -473,8 +473,8 @@ void Statement(Token *&head)
 //拉链回填
 void back(Chain *&c, int stat)
 {
-	char tc[10];
-	sprintf(tc,10,"%d",stat);
+	char tc[32];
+	sprintf(tc,"%d",stat);
 	string s(tc);
 	while(c!=NULL)
 	{
@@ -642,8 +642,8 @@ void While(Token *&head, int cstat)
 			{
 				Repeat(head,currentstat);
 			}
-			char tc[10];
-			sprintf(tc,10,"%d",currentstat);
+			char tc[32];
+			sprintf(tc,"%d",currentstat);
 			string s(tc);
 			emit("j","-","-",s);
 			if(cstat == 0)
@@ -707,8 +707,8 @@ int main()
 		//输出四元式
 		while(fourtuple)
 		{
-			cout << "（" << fourtuple->stat << "）";
-			cout<<"（"<<fourtuple->op<<","<<fourtuple->arg1<<","<<fourtuple->arg2<<","<<fourtuple->result<<"）"<<endl;
+			cout << "(" << fourtuple->stat << ")";
+			cout<<"("<<fourtuple->op<<","<<fourtuple->arg1<<","<<fourtuple->arg2<<","<<fourtuple->result<<")"<<endl;
 			fourtuple = fourtuple->next;
 		}
 		tokenHead = NULL;
