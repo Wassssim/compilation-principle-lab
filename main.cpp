@@ -277,7 +277,7 @@ void Repeat(Token *&head,int cstat)
 
 		c->locate = current;
 		char t[10];
-		sprintf_s(t,10,"%d",currentstat);
+		sprintf(t,10,"%d",currentstat);
 		string s(t);
 		emit("j","-","-",s);
 
@@ -372,7 +372,7 @@ bool Calculate(Token *&head, string left)
 			string s = number.top();
 			number.pop();
 			char tc[10];
-			sprintf_s(tc,10,"%d",temp);
+			sprintf(tc,10,"%d",temp);
 			string t ="T"+string(tc);
 			temp ++;
 			head = head->next;
@@ -384,7 +384,7 @@ bool Calculate(Token *&head, string left)
 			string s = number.top();
 			number.pop();
 			char tc[10];
-			sprintf_s(tc,10,"%d",temp);
+			sprintf(tc,10,"%d",temp);
 			string t ="T"+string(tc);
 			temp ++;
 			head = head->next;
@@ -411,7 +411,7 @@ bool Calculate(Token *&head, string left)
 		string op = symbol.top();
 		symbol.pop();
 		char tc[10];
-		sprintf_s(tc,10,"%d",temp);
+		sprintf(tc,10,"%d",temp);
 		string t = "T"+string(tc);
 		temp ++;
 		switch(op[0])
@@ -474,7 +474,7 @@ void Statement(Token *&head)
 void back(Chain *&c, int stat)
 {
 	char tc[10];
-	sprintf_s(tc,10,"%d",stat);
+	sprintf(tc,10,"%d",stat);
 	string s(tc);
 	while(c!=NULL)
 	{
@@ -643,7 +643,7 @@ void While(Token *&head, int cstat)
 				Repeat(head,currentstat);
 			}
 			char tc[10];
-			sprintf_s(tc,10,"%d",currentstat);
+			sprintf(tc,10,"%d",currentstat);
 			string s(tc);
 			emit("j","-","-",s);
 			if(cstat == 0)
