@@ -4,7 +4,7 @@
 #include<iostream>
 #include<cstring>
 #include<string>
-#include<stdlib>
+#include<cstdlib>
 using namespace std;
 //关键字
 struct tableEntry
