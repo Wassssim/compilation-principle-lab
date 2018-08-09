@@ -1,5 +1,7 @@
 #include "compile.h"
-tableEntry keyword[35] = { //¹Ø¼ü×Ö±í
+
+//å…³é”®å­—è¡¨
+tableEntry keyword[35] = {
 	"and",1, "array",2, "begin",3, "bool",4, "call",5,
 	"case",6, "char",7, "constant",8, "dim",9, "do",10,
 	"else",11, "end",12, "false",13, "for",14, "if",15,
@@ -8,7 +10,7 @@ tableEntry keyword[35] = { //¹Ø¼ü×Ö±í
 	"repeat",26, "set",27, "stop",28, "then",29, "to",30,
 	"true",31, "until",32, "var",33, "while",34, "write",35
 };
-//ÅÐ¶ÏÊÇ·ñÎª×ÖÄ¸
+//åˆ¤æ–­æ˜¯å¦ä¸ºå­—æ¯
 bool is_alphabet(char ch)
 {
 	if((ch>=65 && ch<=90) || (ch>=97 && ch<=122))
@@ -16,7 +18,7 @@ bool is_alphabet(char ch)
 	else
 		return false;
 }
-//ÅÐ¶ÏÊÇ·ñÎªÊý×Ö
+//åˆ¤æ–­æ˜¯å¦ä¸ºæ•°å­—
 bool is_digit(char ch)
 {
 	if(ch>=48 && ch<=57)
@@ -24,7 +26,7 @@ bool is_digit(char ch)
 	else
 		return false;
 }
-//ÅÐ¶ÏÊÇ·ñÎªµ¥½ç·û
+//åˆ¤æ–­æ˜¯å¦ä¸ºå•ç•Œç¬¦
 bool is_character(char ch)
 {
 	switch(ch){
@@ -47,7 +49,7 @@ bool is_character(char ch)
 	}
 }
 
-//´Ê·¨·ÖÎö³ÌÐò
+//è¯æ³•åˆ†æžç¨‹åº
 void scanner(string buff, char*&token,int&next, int&code)
 {
 	int index = 0;
@@ -60,34 +62,34 @@ void scanner(string buff, char*&token,int&next, int&code)
 	}
 	while(ch == ' '||ch == '\t')
 	{
-		ch = buff[next++]; //¶ÁÈ¡ÏÂÒ»¸ö×Ö·û
+		ch = buff[next++]; //è¯»å–ä¸‹ä¸€ä¸ªå­—ç¬¦
 	}
 	if(is_alphabet(ch))
-	{ //ÅÐ¶Ï×ÖÄ¸×Ö·û
+	{ //åˆ¤æ–­å­—æ¯å­—ç¬¦
 		while(is_alphabet(ch) || is_digit(ch)) 
-		{ //Îª×ÖÄ¸×Ö·û»òÊý×Ö×Ö·û
+		{ //ä¸ºå­—æ¯å­—ç¬¦æˆ–æ•°å­—å­—ç¬¦
 			token[index++] = ch;
-			ch = buff[next++]; //¶ÁÈ¡ÏÂÒ»¸ö×Ö·û
+			ch = buff[next++]; //è¯»å–ä¸‹ä¸€ä¸ªå­—ç¬¦
 		}
 		token[index++] = '\0';
 		next = next-1;
-		code =36;  //±êÊ¶·û
+		code =36;  //æ ‡è¯†ç¬¦
 		for(int i=0;i<35;i++)
 		{
 			if(strcmp(token,keyword[i].word) == 0)
 			{
-				code = keyword[i].classcode; //¹Ø¼ü×Ö
+				code = keyword[i].classcode; //å…³é”®å­—
 				break;
 			}
 		}
 	}
 	else if(is_digit(ch))
-	{ //ÅÐ¶ÏÊý×Ö×Ö·û
+	{ //åˆ¤æ–­æ•°å­—å­—ç¬¦
 		while(is_digit(ch))
 		{
 			token[index++] =ch;
-		    ch = buff[next++]; //¶ÁÈ¡ÏÂÒ»¸ö×Ö·û
-			code =37; //ÕûÊý
+		    ch = buff[next++]; //è¯»å–ä¸‹ä¸€ä¸ªå­—ç¬¦
+			code =37; //æ•´æ•°
 		}
 		while(ch != ' ' && ch !='\0')
 		{
@@ -99,11 +101,11 @@ void scanner(string buff, char*&token,int&next, int&code)
 			{
 				break;
 			}
-			ch =buff[next++]; //¶ÁÈ¡ÏÂÒ»¸ö×Ö·û
+			ch =buff[next++]; //è¯»å–ä¸‹ä¸€ä¸ªå­—ç¬¦
 			if(ch == ' '|| ch =='\0')
 			{
 				token[index++] ='\0';
-				code = -1; //²»ºÏ·¨µÄ±êÊ¶·û
+				code = -1; //ä¸åˆæ³•çš„æ ‡è¯†ç¬¦
 				break;
 			}
 		}
@@ -111,7 +113,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 		next = next-1;
 	}
 	else if(ch == 39)
-	{ //ÅÐ¶Ï×Ö·û³£Êý
+	{ //åˆ¤æ–­å­—ç¬¦å¸¸æ•°
 		token[index++] = ch;
 		ch = buff[next++];
 		while(is_alphabet(ch) || is_digit(ch) || is_character(ch))
@@ -123,7 +125,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 		{
 			code = -1;
 			token[index++]  = '\0';
-			next = next - 1; //»ØÍËÒ»¸ö×Ö·û
+			next = next - 1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 		}
 		if(ch ==39 || ch ==' ')
 		{
@@ -131,26 +133,26 @@ void scanner(string buff, char*&token,int&next, int&code)
 			{
 				token[index++] =ch;
 				token[index++] ='\0';
-				code =38; //×Ö·û³£Êý
+				code =38; //å­—ç¬¦å¸¸æ•°
 			}
 			else 
 			{
 				while(ch != '\0')
-				{ //É¨ÃèÒ»ÐÐ×Ö·û´®»»ÐÐÇ°ÊÇ·ñÓÐÓÒµ¥ÒýºÅ
+				{ //æ‰«æä¸€è¡Œå­—ç¬¦ä¸²æ¢è¡Œå‰æ˜¯å¦æœ‰å³å•å¼•å·
 					token[index++] = ch;
 					ch =buff[next++];
 					if(ch ==39)
 					{
 						token[index++] =ch;
 						token[index++] ='\0';
-						code =38; //×Ö·û³£Êý
+						code =38; //å­—ç¬¦å¸¸æ•°
 						break;
 					}
 					if(ch == '\0')
 					{
-						code = -1; //²»ºÏ·¨µÄ×Ö·û³£Êý
-						token[index++] ='\0'; //indexÖ¸Õë»ØËÝµ½¶ÏµãµÄÎ»ÖÃ
-						next = next - 1; //nextÖ¸Õë»ØËÝµ½¶ÏµãµÄÎ»ÖÃ
+						code = -1; //ä¸åˆæ³•çš„å­—ç¬¦å¸¸æ•°
+						token[index++] ='\0'; //indexæŒ‡é’ˆå›žæº¯åˆ°æ–­ç‚¹çš„ä½ç½®
+						next = next - 1; //nextæŒ‡é’ˆå›žæº¯åˆ°æ–­ç‚¹çš„ä½ç½®
 						break;
 					}
 				}
@@ -180,7 +182,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 			else
 			{
 				code =41;
-			    next =next-1; //»ØÍËÒ»¸ö×Ö·û
+			    next =next-1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 			}
 			token[index++]='\0';
 			break;
@@ -208,7 +210,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 			else
 			{
 				code =46;
-			    next =next-1; //»ØÍËÒ»¸ö×Ö·û
+			    next =next-1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 		     }
 			token[index++]='\0';
 			break;
@@ -219,12 +221,12 @@ void scanner(string buff, char*&token,int&next, int&code)
 			if(ch =='*')
 			{
 				token[index++] =ch;
-				int temp_index = index; //¼ÇÂ¼¶Ïµã
-				int temp_next = next; //¼ÇÂ¼¶Ïµã
+				int temp_index = index; //è®°å½•æ–­ç‚¹
+				int temp_next = next; //è®°å½•æ–­ç‚¹
 				ch = buff[next++];
 				token[index++] = ch;
 				while(ch !='\0')
-				{ //É¨ÃèÒ»ÐÐ×Ö·û´®»»ÐÐÇ°ÊÇ·ñÓÐ */ºÅ
+				{ //æ‰«æä¸€è¡Œå­—ç¬¦ä¸²æ¢è¡Œå‰æ˜¯å¦æœ‰ */å·
 					if(ch == '*')
 					{ 
 			            ch=buff[next++];
@@ -232,7 +234,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 			            if(ch =='/')
 			            {
 							code =49;
-							index = temp_index; //»Øµ½¶Ïµã´¦
+							index = temp_index; //å›žåˆ°æ–­ç‚¹å¤„
 							token[index++]='\0';
 							next = next -2;
 							break;
@@ -251,13 +253,13 @@ void scanner(string buff, char*&token,int&next, int&code)
 				if( ch == '\0')
 				{
 					code = -1;
-					next = next -1; //»ØÍËÒ»¸ö×Ö·û
+					next = next -1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 				}
 			}
 			else
 			{
 				code =48;
-			    next =next-1; //»ØÍËÒ»¸ö×Ö·û
+			    next =next-1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 				token[index++]='\0';
 			}
 			break;
@@ -273,7 +275,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 			else
 			{
 				code =50;
-			    next =next-1; //»ØÍËÒ»¸ö×Ö·û
+			    next =next-1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 			}
 			token[index++]='\0';
 		    break;
@@ -298,7 +300,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 		else
 		{
 			code =53;
-			next =next-1; //»ØÍËÒ»¸ö×Ö·û
+			next =next-1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 		}
 		token[index++]='\0';
 		break;
@@ -318,7 +320,7 @@ void scanner(string buff, char*&token,int&next, int&code)
 		else
 		{
 			code =57;
-			next =next-1; //»ØÍËÒ»¸ö×Ö·û
+			next =next-1; //å›žé€€ä¸€ä¸ªå­—ç¬¦
 		}
 		token[index++]='\0';
 		break;
